@@ -3,8 +3,8 @@
 New view for City objects that handles
 all default RESTFul API actions
 """
-from re import X
-from sqlite3 import dbapi2
+
+
 from flask import jsonify, make_response, request
 from api.v1.views import app_views
 from models.state import State
@@ -57,10 +57,10 @@ def post_city(state_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in db:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    X = City(**db)
-    X.state_id = state.id
-    X.save()
-    return make_response(jsonify(X.to_dict()), 201)
+    x = City(**db)
+    x.state_id = state.id
+    x.save()
+    return make_response(jsonify(x.to_dict()), 201)
 
 
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["PUT"])
@@ -71,12 +71,12 @@ def put_city(city_id=None):
     if not db:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    ignore_keys = ["id", "state_id", "created_at", "updated_at"]
+    not_keys = ["id", "state_id", "created_at", "updated_at"]
     if not city:
         return make_response(jsonify({"error": "Not found"}), 404)
     else:
         for key, value in db.items():
-            if key not in ignore_keys:
+            if key not in not_keys:
                 setattr(city, key, value)
         storage.save()
         return make_response(jsonify(city.to_dict()), 200)

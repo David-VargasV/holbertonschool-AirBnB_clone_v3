@@ -7,7 +7,6 @@ all default RESTFul API actions
 
 from flask import jsonify, abort, make_response, request
 from api.v1.views import app_views
-from models import Amenity
 from models import storage
 from models.user import User
 

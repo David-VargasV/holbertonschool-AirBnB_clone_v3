@@ -7,7 +7,7 @@ all default RESTFul API actions
 
 from flask import jsonify, abort, make_response, request
 from api.v1.views import app_views
-from models.amenity import Amenity
+from models import Amenity
 from models import storage
 from models.user import User
 
@@ -68,10 +68,10 @@ def user_put(user_id):
     if not db:
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'created_at', 'updated_at']
+    not_keys = ['id', 'created_at', 'updated_at']
 
     for key, value in db.items():
-        if key not in ignore:
+        if key not in not_keys:
             setattr(user, key, value)
         storage.save()
         return make_response(jsonify(user.to_dict()), 200)
